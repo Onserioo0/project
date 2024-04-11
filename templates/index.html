@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Services</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <!-- Include Bootstrap CSS (for styling) -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Staff Map</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#map">Map</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="#weather">Weather</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#currency">Currency</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+
+        <div>
+            <label for="searchCity">Search City:</label>
+            <input type="text" id="searchCity" placeholder="Enter city name">
+            <button id="searchCityBtn">Search</button>
+        </div>
+        
+    </nav>
+
+
+   
+
+
+    <div class="container">
+        <div class="container">
+            <section id="map">
+                <h1>Staff Map</h1>
+                <div id="mapid"></div>
+            </section>
+            <div class="content">
+                <section id="weather" class="card-deck">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>Current weather</h2>
+                            <form>
+                                <input type="text" name="city" placeholder="weather search">
+                                <input type="submit" value="Submit">
+                            </form>
+                            <p>City: <b>{{weather.city}}, {{weather.country}}</b></p>
+                            <p>{{weather.description}} |{{weather.temperature}}&#8451;</p>
+                        </div>
+                    </div>
+                </section>
+                <section id="currency" class="card-deck">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2>Currency</h2>
+                            <form>
+                                from: <select name="currency_from">
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="ZAR">ZAR</option>
+                                </select>
+                                to: <select name="currency_to">
+                                    <option value="USD">USD</option>
+                                    <option value="GBP">GBP</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="ZAR">ZAR</option>
+                                </select>
+                                <input type="submit" value="Submit">
+                            </form>
+                            1 {{currency_from}} = {{currency_to}} {{rate}}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <section id="addStaffSection" class="card">
+            <div class="card-body">
+                <h2>Add Staff</h2>
+                <form id="addStaffForm" method="POST" action="/add_staff" class="row">
+                    <div class="form-group col-md-6">
+                        <label for="full_name">Name:</label>
+                        <input type="text" class="form-control" id="full_name" name="full_name" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="birthdate">Birthdate:</label>
+                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sin">Social Insurance Number:</label>
+                        <input type="text" class="form-control" id="sin" name="social_insurance_number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="employee_id">Employee ID:</label>
+                        <input type="number" class="form-control" id="employee_id" name="employee_id" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phone_number">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="postal_code">Postal Code:</label>
+                        <input type="text" class="form-control" id="postal_code" name="postal_code" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="latitude">Latitude:</label>
+                        <input type="text" class="form-control" id="latitude" name="latitude" readonly>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="longitude">Longitude:</label>
+                        <input type="text" class="form-control" id="longitude" name="longitude" readonly>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <button type="submit" class="btn btn-primary btn-block">Add Staff</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+    
+        
+    <div class="container">
+        <section id="stafftable">
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Birthdate</th>
+                        <th>Social Insurance Number</th>
+                        <th>Phone Number</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>Postal Code</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for staff in staff_data %}
+                    <tr>
+                        <td>{{ staff.id }}</td>
+                        <td>{{ staff.name }}</td>
+                        <td>{{ staff.birthdate }}</td>
+                        <td>{{ staff.sin }}</td>
+                        <td>{{ staff.phone_number }}</td>
+                        <td>{{ staff.address }}</td>
+                        <td>{{ staff.city }}</td>
+                        <td>{{ staff.postal_code }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm edit-btn" data-toggle="modal" data-target="#editStaffModal" data-staff-id="{{ staff.id }}">
+                                <i class="fas fa-edit"></i> 
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm delete-btn" data-toggle="modal" data-target="#deleteStaffModal" data-staff-id="{{ staff.id }}">
+                                <i class="fas fa-trash"></i> 
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+<!-- Edit Staff Modal -->
+<div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStaffModalLabel">Edit Staff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editStaffForm" method="POST" action="/update_staff">
+                    <div class="form-group row">
+                        <label for="edit_full_name" class="col-sm-3 col-form-label">Name:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_full_name" name="full_name" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_birthdate" class="col-sm-3 col-form-label">Birthdate:</label>
+                        <div class="col-sm-9">
+                            <input type="date" class="form-control" id="edit_birthdate" name="birthdate" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_sin" class="col-sm-3 col-form-label">Social Insurance Number:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_sin" name="social_insurance_number" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_staff_id" class="col-sm-3 col-form-label">Employee ID:</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="edit_staff_id" name="employee_id" readonly >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_phone_number" class="col-sm-3 col-form-label">Phone Number:</label>
+                        <div class="col-sm-9">
+                            <input type="tel" class="form-control" id="edit_phone_number" name="phone_number" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_address" class="col-sm-3 col-form-label">Address:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_address" name="address" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_city" class="col-sm-3 col-form-label">City:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_city" name="city" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_postal_code" class="col-sm-3 col-form-label">Postal Code:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_postal_code" name="postal_code" >
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_latitude" class="col-sm-3 col-form-label">Latitude:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_latitude" name="latitude" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="edit_longitude" class="col-sm-3 col-form-label">Longitude:</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="edit_longitude" name="longitude" readonly>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="updateBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Delete Staff Modal -->
+    <div class="modal fade" id="deleteStaffModal" tabindex="-1" role="dialog" aria-labelledby="deleteStaffModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteStaffModalLabel">Delete Staff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this staff member?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="static/js/script.js"></script>
+
+</body>
+</html>

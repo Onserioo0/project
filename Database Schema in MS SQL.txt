@@ -1,0 +1,39 @@
+CREATE DATABASE StaffDB;
+GO
+
+USE StaffDB;
+GO
+
+CREATE TABLE StaffInformation (
+    FullName NVARCHAR(100),
+    Birthdate DATE,
+    SocialInsuranceNumber NVARCHAR(20),
+    EmployeeID INT PRIMARY KEY,
+    PhoneNumber NVARCHAR(20),
+    Address NVARCHAR(255),
+    City NVARCHAR(100),
+    PostalCode NVARCHAR(10),
+	Latitude DECIMAL(9, 6) NULL,
+	Longitude DECIMAL(9, 6) NULL
+);
+GO
+
+CREATE TABLE WorkDetails (
+    EmployeeID INT FOREIGN KEY REFERENCES StaffInformation(EmployeeID),
+    Department NVARCHAR(100),
+    PositionName NVARCHAR(100),
+    DateOfHire DATE,
+    LastWorkDate DATE NULL,
+    TemporaryDateRange NVARCHAR(50) NULL,
+    WorkType NVARCHAR(50),
+    WorkStatus NVARCHAR(50),
+    SalaryAmount DECIMAL(10, 2)
+);
+GO
+
+-- Inserting some sample data
+INSERT INTO StaffInformation (FullName, Birthdate, SocialInsuranceNumber, EmployeeID, PhoneNumber, Address, City, PostalCode)
+VALUES ('John Doe', '1985-04-12', '123-45-6789', 1, '555-1234', '123 Main St', 'Anytown', 'A1B 2C3');
+
+INSERT INTO WorkDetails (EmployeeID, Department, PositionName, DateOfHire, WorkType, WorkStatus, SalaryAmount)
+VALUES (1, 'IT', 'Software Developer', '2010-06-01', 'Full Time', 'Active', 75000.00);
