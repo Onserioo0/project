@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <!-- Include Bootstrap CSS (for styling) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="static/js/script.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUFF0Vhrah3v7cZV3mtF-z-ZDA_tO4JmA&callback=initMap" async defer></script>
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
@@ -52,9 +54,9 @@
 
     <div class="container">
         <div class="container">
-            <section id="map">
+            <section id="mapSection">
                 <h1>Staff Map</h1>
-                <div id="mapid"></div>
+                <div id="map" style="height: 400px; width: 100%; border: solid black;"></div>
             </section>
             <div class="content">
                 <section id="weather" class="card-deck">
@@ -191,6 +193,7 @@
             </table>
         </section>
     </div>
+    
 <!-- Edit Staff Modal -->
 <div class="modal fade" id="editStaffModal" tabindex="-1" role="dialog" aria-labelledby="editStaffModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -298,7 +301,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="static/js/script.js"></script>
 
 </body>
 </html>
